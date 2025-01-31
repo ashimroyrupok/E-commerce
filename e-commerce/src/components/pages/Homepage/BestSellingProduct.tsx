@@ -1,5 +1,6 @@
 import Ratings from "@/components/Rating/Rating";
 import Container from "@/components/shared/Container";
+import nexiosInstance from "@/config/nexios.config";
 import { TProducts } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,22 +8,13 @@ import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaArrowCircleRight, FaArrowRight, FaEye } from "react-icons/fa";
 import { TbCurrencyDollar } from "react-icons/tb";
 
-const BestSelling = () => {
+const BestSelling = async() => {
 //   const { data: apiResponse } = useGetProductsQuery("");
-  const products = [
-    {
-      _id: "66977dd8b67d8f3f5d4ea069",
-      name: "ph test",
-      description: "test",
-      image:
-        "https://www.luluhypermarket.com/cdn-cgi/image/f=auto/medias/1726392-01.jpg-1200Wx1200H?context=bWFzdGVyfGltYWdlc3wyNjU5MDd8aW1hZ2UvanBlZ3xhRFE0TDJobU9TODVPRE13TWprNU5UWTJNVEV3THpFM01qWXpPVEl0TURFdWFuQm5YekV5TURCWGVERXlNREJJfDQxZGFkOTI5ZDczYzQwYmRjYTYwMTEyYjhkNDU1MTE3YjIyZDMxNTVkYzg3MDNkN2ZlZmMwNjUxMjI3NmE4ZmY",
-      price: 1234,
-      stock: 23,
-      category: "Benches",
-      createdAt: "2024-07-17T08:16:24.449Z",
-      updatedAt: "2024-07-17T08:16:24.449Z",
-    }
-  ];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const {data}:any = await nexiosInstance.get('/products')
+  console.log(data, "response");
+  const products = data?.data;
 //   console.log(products, "homepage");
 
 //   const dispatch = useAppDispatch();
@@ -43,7 +35,7 @@ const BestSelling = () => {
   };
 
   return (
-    <div className="lg:px-5 bg-[#F1F5F9] ">
+    <div className="lg:px-5 -mt-48 bg-[#F1F5F9] rounded-lg max-w-7xl mx-auto ">
       <Container>
         <div className="flex justify-between items center">
           <div className="flex flex-col gap-y-1 my-4">
@@ -70,8 +62,10 @@ const BestSelling = () => {
             >
               <div className="relative overflow-hidden">
                 <Image
+                  height={210}
+                  width={400}
                   className="mx-auto md:h-[170px] lg:h-[210px] md:w-full w-full  rounded-md transition-opacity hover:duration-700 ease-in-out"
-                  src={product.image}
+                  src={product?.image}
                   alt="Product image"
                 />
 
@@ -81,7 +75,7 @@ const BestSelling = () => {
                     <AiFillHeart className="text-[20px] fill-black " />
                   </li>
                   <Link
-                    href={`/products/${product._id}`}
+                    href={`/all-products/${product._id}`}
                     className="w-[38px] shadow-md border h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-red-500 hover:text-black hover:rotate-[360deg] transition-all"
                   >
                     <FaEye className="text-[18px] fill-black" />
@@ -95,7 +89,7 @@ const BestSelling = () => {
               </div>
 
               <div className="">
-                <Link href={`/products/${product._id}`}>
+                <Link href={`/all-products/${product._id}`}>
                   {" "}
                   <h3 className="font-medium text-black my-1 mt-1 hover:text-teal-500 duration-500">
                     {product.name}

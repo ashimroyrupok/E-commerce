@@ -1,4 +1,3 @@
-"use client"
 
 import { TProducts } from "@/types";
 import Link from "next/link";
@@ -6,11 +5,12 @@ import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaArrowCircleRight, FaEye } from "react-icons/fa";
 import { TbCurrencyDollar } from "react-icons/tb";
 import Ratings from "../Rating/Rating";
+import Image from "next/image";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProductCard = ({ data, category }: any) => {
-  console.log(category);
-//   const dispatch = useAppDispatch();
+  console.log(data, "data");
+  //   const dispatch = useAppDispatch();
   // const { carts } = useAppSelector((state) => state.carts);
   // console.log(carts, "cartsss");
 
@@ -30,11 +30,13 @@ const ProductCard = ({ data, category }: any) => {
   return (
     <>
       {data
-        ? data?.map((product: TProducts, i: number) => (
+        ? data?.data?.map((product: TProducts, i: number) => (
             <div key={i}>
               <div className="card lg:h-[350px]   cursor-pointer group shadow-lg rounded-md border border-teal-300/3 border-slate-50/30 p-2 lg:px-3  lg:py-3">
                 <div className="relative overflow-hidden">
-                  <img
+                  <Image
+                    height={210}
+                    width={400}
                     className="mx-auto md:h-[170px] lg:h-[210px] md:w-full w-full  rounded-md transition-opacity hover:duration-700 ease-in-out"
                     src={product?.image}
                     alt="Product image"
@@ -43,25 +45,25 @@ const ProductCard = ({ data, category }: any) => {
                   {/* overlay */}
                   <ul className="flex gap-3 h-[75px] lg:h-[120px] bg-slate-100 bg-opacity-90 opacity-0 group-hover:opacity-100 transition-all duration-700 -bottom-10 justify-center items-center  absolute w-full group-hover:bottom-0">
                     <li className="w-[38px] shadow-md border h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[360deg] transition-all">
-                      <AiFillHeart className="text-[20px]" />
+                      <AiFillHeart className="text-[20px] fill-black" />
                     </li>
                     <Link
-                      href={`/products/${product._id}`}
+                      href={`/all-products/${product._id}`}
                       className="w-[38px] shadow-md border h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-red-500 hover:text-white hover:rotate-[360deg] transition-all"
                     >
-                      <FaEye className="text-[18px]" />
+                      <FaEye className="text-[18px] fill-black" />
                     </Link>
-                    <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center shadow-md border rounded-full hover:bg-violet-500 hover:text-white hover:rotate-[360deg] transition-all">
-                      <AiOutlineShoppingCart className="text-[20px]" />
+                    <li className="w-[38px] h-[38px] cursor-pointer group bg-white flex justify-center items-center shadow-md border rounded-full hover:bg-violet-500 hover:text-white hover:rotate-[360deg] transition-all">
+                      <AiOutlineShoppingCart className="text-[20px] fill-black hover:fill-white" />
                     </li>
                   </ul>
 
                   {/* <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-all duration-700"></div> */}
                 </div>
 
-                <div className="">
+                <div className=" text-black">
                   <Link href={`/products/${product._id}`}>
-                    <h3 className="font-medium text-slate-300 my-1 mt-1 hover:text-teal-500 duration-500">
+                    <h3 className="font-medium  my-1 mt-1 hover:text-teal-500 duration-500">
                       {product.name}
                     </h3>
                   </Link>
@@ -98,7 +100,9 @@ const ProductCard = ({ data, category }: any) => {
             <div key={i}>
               <div className="card lg:h-[350px]   cursor-pointer group shadow-lg rounded-md border border-teal-300/3 border-slate-50/30 p-2 lg:px-3  lg:py-3">
                 <div className="relative overflow-hidden">
-                  <img
+                  <Image
+                    height={210}
+                    width={400}
                     className="mx-auto md:h-[170px] lg:h-[210px] md:w-full w-full  rounded-md transition-opacity hover:duration-700 ease-in-out"
                     src={product?.image}
                     alt="Product image"

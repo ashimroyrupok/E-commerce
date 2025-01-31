@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import MobileSidebar from "@/components/product/MobileSidebar";
 import ProductCard from "@/components/product/ProductCard";
 import Container from "@/components/shared/Container";
 import { categories } from "@/constant";
+import { useLoadAllProductsQuery } from "@/redux/features/products/productApi";
 import { TCategory } from "@/types";
 import { useEffect, useState } from "react";
 import { FaListUl } from "react-icons/fa";
@@ -18,6 +20,19 @@ const AllProduct = () => {
   const [search, setSearch] = useState("");
   console.log(search);
 
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useLoadAllProductsQuery({
+    search,
+    // priceRange,
+    sorting,
+    // limit,
+    // page,
+  });
+
+  console.log(products);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -25,7 +40,6 @@ const AllProduct = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
   useEffect(() => {
     scroll(0, 0);
   }, []);
@@ -35,32 +49,19 @@ const AllProduct = () => {
   //     sorting,
   //     search,
   //   });
-  const products = [
-    {
-      _id: "66977dd8b67d8f3f5d4ea069",
-      name: "ph test",
-      description: "test",
-      image:
-        "https://www.luluhypermarket.com/cdn-cgi/image/f=auto/medias/1726392-01.jpg-1200Wx1200H?context=bWFzdGVyfGltYWdlc3wyNjU5MDd8aW1hZ2UvanBlZ3xhRFE0TDJobU9TODVPRE13TWprNU5UWTJNVEV3THpFM01qWXpPVEl0TURFdWFuQm5YekV5TURCWGVERXlNREJJfDQxZGFkOTI5ZDczYzQwYmRjYTYwMTEyYjhkNDU1MTE3YjIyZDMxNTVkYzg3MDNkN2ZlZmMwNjUxMjI3NmE4ZmY",
-      price: 1234,
-      stock: 23,
-      category: "Benches",
-      createdAt: "2024-07-17T08:16:24.449Z",
-      updatedAt: "2024-07-17T08:16:24.449Z",
-    },
-  ];
+
 
   // console.log(isError,"error")
 
   // console.log(category);
 
-  //   if (isLoading) {
-  //     return (
-  //       <div className="flex justify-center items-center h-screen">
-  //         <div className="w-10 h-10 animate-[spin_1s_linear_infinite]  mx-auto text-center rounded-full border-4 border-r-[#3B9DF8] border-[#3b9df84b]"></div>
-  //       </div>
-  //     );
-  //   }
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center h-screen">
+          <div className="w-10 h-10 animate-[spin_1s_linear_infinite]  mx-auto text-center rounded-full border-4 border-r-[#3B9DF8] border-[#3b9df84b]"></div>
+        </div>
+      );
+    }
 
   //   const data = useLoaderData() as TProductResponse;
 

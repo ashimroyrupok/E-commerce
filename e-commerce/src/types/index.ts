@@ -3,18 +3,24 @@ export type TCategory = {
   image: string;
 };
 
-export type TProducts = {
+
+export type TProduct = {
   _id: string;
   name: string;
+  category: string;
   description: string;
   image: string;
   price: number;
   stock: number;
-  category: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };
 
-export type TProductResponse = {
+export interface TProductResponse {
   success: boolean;
+  statusCode: number;
   message: string;
-  data: TProducts;
-};
+  data: TProduct;
+}

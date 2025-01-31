@@ -1,10 +1,16 @@
 import Container from "@/components/shared/Container";
-import {  categoriess } from "@/constant";
+import nexiosInstance from "@/config/nexios.config";
 import { TCategory } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-const Categories = () => {
+const Categories =async () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const  {data} :any= await nexiosInstance.get('/categories')
+  console.log(data)
+  const categories= data.data
+
   return (
     <div className="text-black bg-slate-100 relative py-5 px-4 my-3">
       <Container>
@@ -16,14 +22,16 @@ const Categories = () => {
         </div>
 
         <div className="mt-5 grid grid-cols-2 lg:grid-cols-6 gap-6 cursor-pointer">
-          {categoriess?.map((category: TCategory , idx: number) => (
+          {categories?.slice(0,12).map((category: TCategory, idx: number) => (
             <Link key={idx} href={`/product/${category.name}`}>
               <div
                 key={idx}
                 className="border group border-teal-200/40 bg-white rounded-md h-[200px] "
               >
                 <Image
-                  className="rounded-md w-full group-hover:scale-95 transition-all duration-300 h-[120px] object-cover "
+                  className="rounded-md w-full  group-hover:scale-95 transition-all duration-300 h-[120px] object-cover "
+                  width={400}
+                  height={120}
                   src={category.image}
                   alt="categories"
                 />
