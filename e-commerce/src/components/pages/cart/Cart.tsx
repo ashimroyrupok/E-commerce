@@ -1,19 +1,22 @@
-"use client"
-import Container from '@/components/shared/Container';
-import { decrementQuantity, incrementQuantity } from '@/redux/features/cart/addToCart.slice';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { TProduct } from '@/types';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { FaAngleRight } from 'react-icons/fa';
+"use client";
+import Container from "@/components/shared/Container";
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeItem,
+} from "@/redux/features/cart/addToCart.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { FaAngleRight } from "react-icons/fa";
 
 const Cart = () => {
-  const [products, setProducts] = useState("");
   const { carts } = useAppSelector((state) => state.carts);
 
   //get total price of cart items
   const subTotal = carts?.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (total: number, item: any) =>
       total + parseFloat(item.price) * parseFloat(item.quantity),
     0
@@ -26,6 +29,11 @@ const Cart = () => {
   };
   const handleDecrement = (id: string) => {
     dispatch(decrementQuantity(id));
+  };
+
+  const handleDelete = (id: string) => {
+    console.log(id)
+    dispatch(removeItem(id));
   };
 
   //scroll to to of page
@@ -82,8 +90,8 @@ const Cart = () => {
                       <div className="flex flex-wrap  gap-2 border-b border-slate-300 py-1 mb-2 justify-between items-center">
                         <div className="flex gap-2 flex-wrap items-center">
                           <Image
-                          height={70}
-                          width={70}
+                            height={70}
+                            width={70}
                             className="w-[70px] h-[70px] rounded-md"
                             src={item?.image}
                             alt="product image"
@@ -107,10 +115,10 @@ const Cart = () => {
                           </div>
                         </div>
 
-                        <div className="flex gap-2 flex-col">
+                        <div className="flex gap-2 text-black flex-col">
                           <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
                             <div
-                                onClick={() => handleDecrement(item?._id)}
+                              onClick={() => handleDecrement(item?._id)}
                               className="px-3 cursor-pointer"
                             >
                               -
@@ -119,13 +127,16 @@ const Cart = () => {
                             <div className="px-3">{item.quantity}</div>
 
                             <div
-                                onClick={() => handleIncrement(item?._id)}
+                              onClick={() => handleIncrement(item?._id)}
                               className="px-3 cursor-pointer"
                             >
                               +
                             </div>
                           </div>
-                          <button className="px-5 py-[3px] bg-[#F85606] text-white">
+                          <button
+                            onClick={() => handleDelete(item?._id)}
+                            className="px-5 py-[3px] bg-[#F85606] text-white"
+                          >
                             Delete
                           </button>
                         </div>
@@ -137,8 +148,8 @@ const Cart = () => {
                 <div className="flex  items-center justify-center mb-10 lg:mb-0 mt-2 lg:mt-20">
                   <div>
                     <Image
-                    height={300}
-                    width={250}
+                      height={300}
+                      width={250}
                       className="w-[120px] lg:w-[250px] mx-auto animate-bounce delay-700"
                       src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png"
                       alt="cart"
